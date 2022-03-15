@@ -1,0 +1,81 @@
+Exploratory Data Analysis (EDA)
+
+
+Check null in our data set
+
+	df.info() can show if our dataset has null values in it.
+	df.isnull().sum() can also get the job down.
+
+
+Remove or drop the null 
+	
+	df.dropna() removes the null value and return a dataframe.
+	
+	we can also do it inplace without a return value by specifiying
+	the parameter inplace=True
+	
+		dr.dropna(inplace=True)
+
+
+
+
+Check duplicate rows
+	
+	df.duplicated().sum()
+
+
+Remove or drop the duplicate rows
+	
+	df.drop_duplicates() removes the duplicate rows and return a dataframe.
+	
+	we can also do it inplace without a return value by specifiying
+	the parameter inplace=True
+	
+		df.drop_duplicates(inplace=True)
+
+
+
+
+How to find the outliers and filter them out
+
+	First, find all of them first.
+		
+		* Q1 = median of lower half of data  	     (25%)
+		* Q2 = median of data  (Usually not needed)  (50%) 
+		* Q3 = median of upper half of data  	     (75%)
+		
+		* IQR = Q3 - Q1			(Interquartile Range)
+		* Minimum = Q1 -1.5 * IQR 
+		* Maximum = Q3 + 1.5 * IQR
+		
+
+
+<img src='https://miro.medium.com/max/1400/1*2c21SkzJMf3frPXPAR_gZA.png' width=500>
+
+	
+	We can use the quantile() to find Q1 and Q3
+	EX:		
+		q1 = df['COLUMN NAME'].quantile(0.25)
+		q3 = df['COLUMN NAME'].quantile(0.75)
+
+	To find the IQR:
+		
+		IQR = q3 - q1
+	
+	
+	Once we have q1, q3 and IQR, we can then filter out the outliers.
+	Create boolean masks first.
+
+	outliers_min = df['COLUMN NAME'] < (q1 - 1.5 * IQR)
+	outliers_max = df['COLUMN NAME'] > (q3 + 1.5 * IQR)
+
+	
+	df = df[ ~outliers_min & ~outliers_max ]
+
+
+
+
+
+
+
+

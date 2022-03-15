@@ -1,0 +1,109 @@
+A data frame is made of multiple series. 
+Each column in a data frame is a series 
+
+
+df.head(): show the first 5 rows of the data frame.
+
+df.describe(): show some data on a specific column. (numbers only)
+
+
+# Show the total count of values in a series
+df['COLUMN NAME'].value_counts()   Eg: df['id'].value_counts()
+This method does not work well on data frame.	 
+
+
+# Select one column
+df['COLUMN NAME']   		Eg: df['id']
+
+
+# Select mutiple columns
+df[ ['column1', 'column2'] ]    Eg: df[ ['id', 'neighbourhood'] ]
+
+
+# Select index of rows
+   iloc stands for index location. It uses the index to select the rows.
+	df.iloc[ from row : to row ]    Eg: df.iloc[ 100:105 ]
+	df.iloc[ [row1, row2, row3] ]   Eg: df.iloc[ [10, 100, 105] ]
+
+   loc stands for location. It can use both index and custom label to select rows.
+	df.loc[ [0,2] ]
+	
+   The second argument for both these methods is to specify which column.
+	df.iloc[ from row : to row, 'COLUMN NAME' ]	Eg: df.loc[ 0:5, 'id' ]
+
+   Both iloc and loc can select a row just by passing the index.
+	df.loc[ 'Bronx' ]
+	df.iloc[ 1 ]
+
+  
+
+
+# Select columns that match specific values using boolean masks
+  A boolean mask is a series of True's and False's   
+
+1: First, we need to specify the property/properties that we want to look up.
+
+2: Second, comparing that property to the data frame, we get a boolean mask.
+ 
+3: A boolean mask will get every column that satisfies the specify properties.
+
+Eg: manhattan_mask = df[ 'neighbourhood' ] == 'Manhattan'
+    df[ manhattan_mask ] will show all the data whose neighbourhood is Manhattan.
+	
+    price_mask = df['price'] > 500
+    df[ price_mask ] will show all the data whose price is greater than 500
+
+    df[ manhattan_mask & price_mask ] will show all the data whose 
+          neighbourhood is Manhattan and price is greater than 500.
+
+
+
+# Another way to create boolean mask is to use isin() method.
+
+1: Create a list of a specific value that you want to select. 
+   isin() method takes a list or set as its argument.
+
+2: Pass the list into the method as an argument. 
+   The return value is a boolean mask.
+
+Eg: neighborhoods_condition = [ 'Brooklyn' , 'Queens' ]
+    mask = df['neighborhoods'].isin( neighborhoods_condition )
+    df[ mask ] shows all the neighborhood columns that are either BK or Queens 
+
+    df[~mask] shows the negation all it.
+
+
+
+# np.where() is a handy method that returns a np array / series.
+  
+   The first argument is boolean masks:
+	c1 = df['neighbourhood'] == 'Williamsburg'
+	c2 = df['room_type'] == 'Private room'
+
+   The second argument is what to put when it's true:
+	np.where( c1 & c2, 'Williamsburg and private room',  )
+
+   The third argument is what to put when it's false:
+	np.where( c1 & c2, 'Williamsburg and private room', 'None' )
+	
+   It returns a series which you can add it to the data frame.
+
+
+
+# Extract column value based on another column value.
+
+	race			percentage	population
+0	White			0.763		252895801.0
+1	Black			0.134		44414204.0
+2	Hispanic 		0.185		61318117.0
+3	Unknown race		0.028		9280580.0
+4	Asian			0.059		19555508.0
+5	Native American		0.013		4308841.0
+6	Pacific Islander	0.002		662899.0
+
+
+
+Say I want to get the population of White race:
+
+df_race.loc[df_race['race'] == 'White', 'population'].item()
+

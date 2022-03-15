@@ -1,0 +1,86 @@
+Grouping in Pandas
+
+
+To group data in pandas, we use the groupby method. 
+
+The groupby method takes in a column name as its first parameter.
+
+The method returns a dataframe groupby object which itself cannot be viewed.
+A data frame groupby object is made of multiple series groupby objects.
+
+
+
+Say there's a column named neighbourhood, and the neighbourhood has values such as:
+	
+	Manhattan, Brooklyn, Queens, Bronx, etc...
+
+After the groupby, select a column then select the function you want to perform on said column.
+
+To see the a single groupby result, we use the get_group method and pass one of the neighbourhood as its first argument.
+
+	neighbour_grp = df.groupby('neighbourhood', as_index=False)
+	neighbour_grp.get_group('Queens')
+
+
+To see the all the values based on the group column, use the count method
+	
+	neighbour_grp.count()
+
+
+To access a series groupby column, do:
+	
+	neighbour_grp['COLUMN_NAME']
+
+
+
+There's some computation functions we can use for groupby column.
+
+	neighbour_grp['COLUMN_NAME'].min()
+	neighbour_grp['COLUMN_NAME'].max()
+	neighbour_grp['COLUMN_NAME'].mean()
+	neighbour_grp['COLUMN_NAME'].median()
+	neighbour_grp['COLUMN_NAME'].std()
+	neighbour_grp['COLUMN_NAME'].sum()
+
+Using these functions on the dataframe groupby will give very strange results.
+It is suggested to use them on a specific column instead.
+The return value of these functions is a series with the groupby target as the index.
+
+To make a dataframe out of a groupby:
+	
+	gb = neighbour_grp['COLUMN_NAME'].sum()
+	gb = gb.reset_index()
+
+
+
+Using the agg() method, we can apply multiple computation functions on a single column.
+
+	neighbour_grp['COLUMN_NAME'].agg( ['min', 'max'] )
+
+The agg method takes in a list of function names we want to apply.
+
+
+
+
+	
+
+
+
+
+
+To combine dataframes, there's multiple methods we can use.
+
+	pd.merge()
+	
+	df.merge()
+	df.join()
+
+pd.merge() is a higher order function which takes in the dataframes that
+you want to merge.
+	
+	pd.merge(df_prices, df_houses)
+
+
+merge can do anything than join can.
+
+

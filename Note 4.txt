@@ -1,0 +1,39 @@
+When we are plotting something using matplot, 
+the x and y labels are based on the index and the value
+
+For example, if the index is the Year, X-axis will be the values of year
+	     if the index is the mean, Y-axis will be the mean
+
+What we can do now is to groupby something to get the X-axis done,
+then for the Y-axis we can do something like mean.
+
+
+		line_chart = df.groupby('Year')      	X-axis
+		line_chart = line_chart['MSRP'].mean()  Y-axis
+----------------------------------------------------------------------
+
+Or we can do reset_index(), then manually type in what the x and y labels are
+
+line_axe = line_chart.plot(figsize=(20, 20), title='Relationship between Year and MSRP', x='Year')
+
+
+
+
+-----------------------------------------------------------------------
+To change the size of a sns plot
+
+	plt.figure(figsize=(15,8))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
